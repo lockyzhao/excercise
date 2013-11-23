@@ -12,8 +12,8 @@ uniform float constantAttenuation; //attenuation coefficients
 uniform float linearAttenuation;
 uniform float QuadraticAttenuation;
 
-varying vec3 normal;
-varying vec4 pos;
+in vec3 normal;
+in vec4 pos;
 //varying vec4 color;
 
 void main() {

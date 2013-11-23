@@ -66,7 +66,7 @@ void MyWidget::initializeGL()
 
     printDriverInfo();
 
-    qglClearColor(Qt::black);
+    qglClearColor(Qt::white);
     initShaders();
     initTextures();
     initLights();
@@ -109,7 +109,7 @@ void MyWidget::paintGL()
     QMatrix4x4 matrix;
     matrix.translate(0.0, 0.0, -10.0);
     matrix.rotate(rotation);
-    matrix.scale(0.75);
+    //matrix.scale(0.75);
 
     QMatrix4x4 normalMatrix=matrix.inverted().transposed();
     //std::cout<<normalMatrix<<std::endl;

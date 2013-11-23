@@ -1,4 +1,4 @@
 excercise
 =========
 
-for some excersize
+for some excercises

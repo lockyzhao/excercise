@@ -5,12 +5,12 @@ uniform mat4 MVP;
 uniform mat4 NormalMatrix;
 uniform mat4 ModelViewMatrix;
 
-varying vec3 normal;
-varying vec4 pos;
+out vec3 normal;
+out vec4 pos;
 //varying vec4 color;
 
-attribute vec4 vert;
-attribute vec3 normal0;
+in vec4 vert;
+in vec3 normal0;
 
 void main() {
   normal =normalize(ModelViewMatrix * vec4(normal0,0));
