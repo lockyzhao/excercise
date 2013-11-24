@@ -11,7 +11,7 @@
 
 
 MyWidget::MyWidget(QWidget *parent)
-    : QGLWidget(parent),angularSpeed(1)
+    : QGLWidget(parent),angularSpeed(1),scaleCoff(1)
 {
 }
 
@@ -73,6 +73,22 @@ void MyWidget::timerEvent(QTimerEvent *e)
     }
 }
 
+void MyWidget::wheelEvent(QWheelEvent *event)
+{
+    QPoint numDegrees = event->angleDelta() ;
+
+    if (!numDegrees.isNull())
+    {
+        if (numDegrees.y()>=60)
+            scaleCoff/=1.2;
+        else
+            scaleCoff*=1.2;
+    }
+
+    event->accept();
+    updateGL();
+}
+
 void MyWidget::initializeGL()
 {
     initializeOpenGLFunctions();
@@ -126,7 +142,7 @@ void MyWidget::paintGL()
     QMatrix4x4 matrix;
     matrix.translate(0.0, 0.0, -10.0);
     matrix.rotate(rotation);
-    //matrix.scale(0.75);
+    matrix.scale(scaleCoff);
 
     QMatrix4x4 normalMatrix=matrix.inverted().transposed();
     //std::cout<<normalMatrix<<std::endl;

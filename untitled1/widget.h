@@ -43,6 +43,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e);
     void keyReleaseEvent(QKeyEvent * e);
     void timerEvent(QTimerEvent *e);
+    void wheelEvent(QWheelEvent *);
 
     void initializeGL();
     void resizeGL(int w,int h);
@@ -66,7 +67,7 @@ private:
     GLuint texture;
 
     QMatrix4x4 projection;
-
+    qreal scaleCoff;
     QVector2D mousePressPosition;
     QVector3D rotationAxis;
     qreal angularSpeed;

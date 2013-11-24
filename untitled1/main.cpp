@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
         w.conf["ShaderFile"]=argv[2];
     }
 
+    w.resize(QSize(1024,768));
     w.show();
 
     return a.exec();
