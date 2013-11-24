@@ -88,8 +88,8 @@ void GeoEngine::render(QOpenGLShaderProgram *program)
     program->enableAttributeArray(normalcoordLocation);
     glVertexAttribPointer(normalcoordLocation, 3, GL_FLOAT, GL_FALSE, 0, (const void *)offset);
 
-    // Draw cube geometry using indices from VBO 1
-    glDrawElements(GL_TRIANGLES, model->faces.size()*8, GL_UNSIGNED_INT, 0);
+    // Draw model geometry using indices from VBO 1
+    glDrawElements(GL_TRIANGLES, model->faces.size()*model->face_dim, GL_UNSIGNED_INT, 0);
 }
 
 
@@ -174,7 +174,7 @@ void GeoEngine::initObjeModels(const std::string& file_name)
         vboIds.clear();
     }
     //std::cout<<(bool)model<<std::endl;
-    model.reset(new ObjModel());
+    //model.reset(new ObjModel());
     model.reset(new ObjModel());
     model->load(file_name);
     model->debug();

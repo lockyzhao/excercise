@@ -77,6 +77,8 @@ void MyWidget::initializeGL()
 {
     initializeOpenGLFunctions();
 
+    //std::cout<<sizeof(GLuint)<<std::endl;
+
     printDriverInfo();
 
     qglClearColor(Qt::white);
@@ -102,12 +104,14 @@ void MyWidget::resizeGL(int w, int h)
     qreal aspect = qreal(w) / qreal(h ? h : 1);
 
     // Set near plane to 3.0, far plane to 7.0, field of view 45 degrees
-    const qreal zNear = 3.0, zFar = 50.0, fov = 45.0;
+    const qreal zNear = 3.0, zFar = 50.0;
+
 
     // Reset projection
     projection.setToIdentity();
 
     // Set perspective projection
+    // const fov = 45.0;
     //projection.perspective(fov, aspect, zNear, zFar);
     projection.ortho(-3.,3.,-3./aspect,3./aspect,zNear,zFar);
 }

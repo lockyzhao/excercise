@@ -10,11 +10,11 @@
 
 Model::Model()
 {
-    std::cout<<"Model"<<reinterpret_cast<unsigned int>(this)<<" is created"<<std::endl;
+    std::cout<<"Model"<<reinterpret_cast<unsigned long >(this)<<" is created"<<std::endl;
 }
 Model::~Model()
 {
-    std::cout<<"Model "<<reinterpret_cast<unsigned int>(this)<<" is destroyed"<<std::endl;
+    std::cout<<"Model "<<reinterpret_cast<unsigned long>(this)<<" is destroyed"<<std::endl;
 }
 
 
@@ -125,7 +125,8 @@ bool ObjModel::load(const std::string &file_name)
     ifstream infile;
     infile.open(file_name.c_str(),ios::binary);
 
-    std::cout<<sizeof(int)<<"\t"<<sizeof(long)<<std::endl;
+    //std::cout<<sizeof(int)<<"\t"<<sizeof(long)<<"\t"<<sizeof(float)<<std::endl;
+    std::cout<<sizeof(Point3f)<<"\t"<<sizeof(Point2f)<<"\t"<<sizeof(Face)<<std::endl;
     if (!infile.is_open())
     {
         std::cerr<<"Cannot find the model file: "<<file_name<<endl;
@@ -150,6 +151,7 @@ bool ObjModel::load(const std::string &file_name)
             coord_list.push_back(Point3f());
             for (int i=0;i<3;i++)
                 infile>>coord_list.back()[i]  ;
+
             //vmark.clear();
         }else
         if (id=="vn"){
@@ -182,7 +184,7 @@ bool ObjModel::load(const std::string &file_name)
                         }
                     }
                 bFirst=false;
-                std::cout<<infile.tellg()<<"\t"<<s.length()<<std::endl;
+                //std::cout<<infile.tellg()<<"\t"<<s.length()<<std::endl;
                 infile.seekg(int(infile.tellg())-s.length());
             }
 
@@ -263,9 +265,11 @@ bool ObjModel::save(const std::string &file_name)
 
 void Model::debug()
 {
-//    for_each(verts.begin(),verts.end(),[](const Point3f& it){ std::cout<<it<<std::endl; });
+//    for_each(verts.begin(),verts.end(),[](const Point3f& it){
+//        if (it.length()<2)  std::cout<<it<<std::endl; });
 //    for_each(texs.begin(),texs.end(),[](const Point2f& it){ std::cout<<it<<std::endl; });
-//    for_each(norms.begin(),norms.end(),[](const Point3f& it){ std::cout<<it<<std::endl; });
+//    for_each(norms.begin(),norms.end(),[](const Point3f& it){    if (it.length()>2)  std::cout<<it<<std::endl; });
 //    for_each(faces.begin(),faces.end(),[](const Face& it){ std::cout<<it<<std::endl; });
+
     std::cout<<face_num<<"\t"<<vert_num<<"\t"<<tex_num<<"\t"<<norm_num<<std::endl;
 }

@@ -4,12 +4,13 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <cmath>
 template <class T,int size>
 struct LightVector
 {
  public:
     LightVector(){
-        //memset(v,0,size*sizeof(T));
+        memset(v,0,size*sizeof(T));
     }
     LightVector(const T* vl){
         memcpy(v,vl,size*sizeof(T));
@@ -40,6 +41,18 @@ struct LightVector
     inline const T* data(){
         return v;
     }
+    inline double length() const{
+        double sum=0;
+        for (int i=0;i<size;i++)
+            sum+=v[i]*v[i];
+        return sqrt(sum);
+    }
+    inline LightVector& normalize(){
+        double t=length();
+        for(int i=0;i<size;i++)
+            v[i]=T(v[i]/t);
+        return *this;
+    }
 
     //friend std::ostream& operator<<(std::ostream&,const LightVector<T,size>&);
  private:
@@ -63,12 +76,12 @@ public:
     enum {Triangle=3,Quad};
     typedef LightVector<float,3> Point3f;
     typedef LightVector<float,2> Point2f;
-    typedef LightVector<unsigned long,4*3> rawFace4d;
-    typedef LightVector<unsigned long,3*3> rawFace3d;
+    typedef LightVector<unsigned int,4*3> rawFace4d;
+    typedef LightVector<unsigned int,3*3> rawFace3d;
     typedef rawFace3d rawFace;
 
-    typedef LightVector<unsigned long,4> Face4d;
-    typedef LightVector<unsigned long,3> Face3d;
+    typedef LightVector<unsigned int,4> Face4d;
+    typedef LightVector<unsigned int,3> Face3d;
     typedef Face3d Face;
 
 public:
