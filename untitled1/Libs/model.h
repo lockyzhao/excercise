@@ -63,12 +63,12 @@ public:
     enum {Triangle=3,Quad};
     typedef LightVector<float,3> Point3f;
     typedef LightVector<float,2> Point2f;
-    typedef LightVector<unsigned int,4*3> rawFace4d;
-    typedef LightVector<unsigned int,3*3> rawFace3d;
+    typedef LightVector<unsigned long,4*3> rawFace4d;
+    typedef LightVector<unsigned long,3*3> rawFace3d;
     typedef rawFace3d rawFace;
 
-    typedef LightVector<unsigned int,4> Face4d;
-    typedef LightVector<unsigned int,3> Face3d;
+    typedef LightVector<unsigned long,4> Face4d;
+    typedef LightVector<unsigned long,3> Face3d;
     typedef Face3d Face;
 
 public:

@@ -3,6 +3,7 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <vector>
+#include <memory>
 #include "Libs/model.h"
 class GeoEngine: protected QOpenGLFunctions
 {
@@ -18,7 +19,7 @@ private:
     void initCubeGeometry();
     void initObjeModels(const std::string& file_name);
 
-    Model* model ;
+    std::unique_ptr<Model> model ;
     std::vector<GLuint> vboIds;
 };
 

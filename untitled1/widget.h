@@ -41,6 +41,7 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
+    void keyReleaseEvent(QKeyEvent * e);
     void timerEvent(QTimerEvent *e);
 
     void initializeGL();

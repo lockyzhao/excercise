@@ -43,6 +43,19 @@ void MyWidget::mouseReleaseEvent(QMouseEvent *e)
     angularSpeed += acc;
 }
 
+void MyWidget::keyReleaseEvent(QKeyEvent *e)
+{
+    QVector3D v;
+    //std::cout<<e->key()<<"\t"<<Qt::Key_Left<<std::endl;
+    if (e->key()==Qt::Key_Left) v=QVector3D(0,-1,0);
+    if (e->key()==Qt::Key_Right) v=QVector3D(0,1,0);
+    if (e->key()==Qt::Key_Up) v=QVector3D(-1,0,0);
+    if (e->key()==Qt::Key_Down) v=QVector3D(1,0,0);
+
+    rotation = QQuaternion::fromAxisAndAngle(v, 15) * rotation;
+    updateGL();
+}
+
 void MyWidget::timerEvent(QTimerEvent *e)
 {
     // Decrease angular speed (friction)

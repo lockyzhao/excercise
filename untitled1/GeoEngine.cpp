@@ -20,7 +20,7 @@ GeoEngine::~GeoEngine()
     if (model!=nullptr)
     {
 
-        delete model;
+        //delete model;
         model=nullptr;
         //std::cout<<"Cleaning..."<<std::endl;
     }
@@ -173,13 +173,12 @@ void GeoEngine::initObjeModels(const std::string& file_name)
         glDeleteBuffers(2, vboIds.data());
         vboIds.clear();
     }
-
-    if(model!=nullptr)
-        delete model;
-    model=new ObjModel();
+    //std::cout<<(bool)model<<std::endl;
+    model.reset(new ObjModel());
+    model.reset(new ObjModel());
     model->load(file_name);
     model->debug();
-
+    //std::cout<<(bool)model<<std::endl;
     vboIds.resize(3);
 
     // Generate 2 VBOs

@@ -143,6 +143,7 @@ bool ObjModel::load(const std::string &file_name)
 
     std::chrono::time_point<std::chrono::system_clock> start, end;
     std::chrono::duration<double> elapsed_seconds;
+    
     start = std::chrono::system_clock::now();
     while(!infile.eof())
     {
@@ -150,7 +151,7 @@ bool ObjModel::load(const std::string &file_name)
             coord_list.push_back(Point3f());
             for (int i=0;i<3;i++)
                 infile>>coord_list.back()[i]  ;
-            //vmark.clear();
+            
         }else
         if (id=="vn"){
             normal_list.push_back(Point3f());
@@ -158,13 +159,13 @@ bool ObjModel::load(const std::string &file_name)
                 infile>> normal_list.back()[i]  ;
                 //normal_list.back()[i]*=-1;
             }
-            //vmark.clear();
+            
         }else
         if (id=="vt"){
             texture_list.push_back(Point2f());
             for (int i=0;i<2;i++)
                 infile>>texture_list.back()[i]  ;
-            //vmark.clear();
+            
         }else
         if (id=="f"){
             if (bFirst){

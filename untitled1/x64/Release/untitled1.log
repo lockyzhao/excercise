@@ -1,0 +1,57 @@
+﻿Build started 2013/11/24 17:37:59.
+     1>Project "D:\works\src\QT\test\untitled1\untitled1.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(345,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+     1>CustomBuild:
+         Moc'ing widget.h...
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I..\..\..\..\..\gnu\Qt\5.1.0\msvc2012_64_opengl\include /I..\..\..\..\..\gnu\Qt\5.1.0\msvc2012_64_opengl\include\QtOpenGL /I..\..\..\..\..\gnu\Qt\5.1.0\msvc2012_64_opengl\include\QtWidgets /I..\..\..\..\..\gnu\Qt\5.1.0\msvc2012_64_opengl\include\QtGui /I..\..\..\..\..\gnu\Qt\5.1.0\msvc2012_64_opengl\include\QtCore /Irelease /I"..\..\..\..\..\gnu\Qt\5.1.0\msvc2012_64_opengl\mkspecs\win32-msvc2012" /Zi /nologo /W3 /WX- /O2 /D _WINDOWS /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /D QT_NO_DEBUG /D QT_OPENGL_LIB /D QT_WIDGETS_LIB /D UNICODE /D UNICODE /D WIN32 /D WIN32 /D WIN64 /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"x64\Release\\" /Fd"x64\Release\vc110.pdb" /Gd /TP /errorReport:prompt -Zm200 -w34100 -w34189 GeneratedFiles\Release\moc_widget.cpp GeoEngine.cpp main.cpp Libs\model.cpp widget.cpp
+         moc_widget.cpp
+         GeoEngine.cpp
+     1>GeoEngine.cpp(92): warning C4267: 'argument' : conversion from 'size_t' to 'GLsizei', possible loss of data
+     1>GeoEngine.cpp(105): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(107): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(111): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(113): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(116): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(118): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(122): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(124): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(128): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(129): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(130): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(131): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(134): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(135): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(136): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>GeoEngine.cpp(137): warning C4305: 'argument' : truncation from 'double' to 'float'
+         main.cpp
+         model.cpp
+     1>Libs\model.cpp(110): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(111): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(112): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(113): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(231): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(232): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(233): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(234): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>Libs\model.cpp(240): warning C4100: 'file_name' : unreferenced formal parameter
+         widget.cpp
+     1>widget.cpp(46): warning C4100: 'e' : unreferenced formal parameter
+     1>widget.cpp(92): warning C4189: 'fov' : local variable is initialized but not referenced
+     1>widget.cpp(176): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>widget.cpp(177): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>widget.cpp(192): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>widget.cpp(193): warning C4305: 'argument' : truncation from 'double' to 'float'
+         Generating Code...
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\works\src\QT\test\untitled1\x64\Release\\untitled1.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:D:\gnu\Qt\5.1.0\msvc2012_64_opengl\lib /LIBPATH:D:\gnu\Qt\\5.1.0\msvc2012_64_opengl\lib glu32.lib opengl32.lib gdi32.lib user32.lib qtmain.lib D:\gnu\Qt\5.1.0\msvc2012_64_opengl\lib\Qt5OpenGL.lib D:\gnu\Qt\5.1.0\msvc2012_64_opengl\lib\Qt5Widgets.lib D:\gnu\Qt\5.1.0\msvc2012_64_opengl\lib\Qt5Gui.lib D:\gnu\Qt\5.1.0\msvc2012_64_opengl\lib\Qt5Core.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"D:\works\src\QT\test\untitled1\x64\Release\untitled1.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X64 "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"  /SUBSYSTEM:WINDOWS x64\Release\moc_widget.obj
+         x64\Release\GeoEngine.obj
+         x64\Release\main.obj
+         x64\Release\model.obj
+         x64\Release\widget.obj
+         untitled1.vcxproj -> D:\works\src\QT\test\untitled1\x64\Release\untitled1.exe
+     1>Done Building Project "D:\works\src\QT\test\untitled1\untitled1.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:12.16
