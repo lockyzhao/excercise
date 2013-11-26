@@ -62,7 +62,7 @@ private:
     QBasicTimer timer;
     QOpenGLShaderProgram program;
     //GeometryEngine geometries;
-    GeoEngine ge;
+    GeoEngine gEngine;
 
     GLuint texture;
 

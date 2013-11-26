@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <chrono>
 #include <ctime>
-
+#include <cstdio>
 
 
 Model::Model()
@@ -55,8 +55,10 @@ bool ObjModel::rawload(const std::string &file_name)
         }else
         if (vmark=="vn"){
             normal_list.push_back(Point3f());
-            for (int i=0;i<3;i++)
+            for (int i=0;i<3;i++){
                 of>> normal_list.back()[i]  ;
+                //normal_list.back()[i]*=-1  ;
+            }
             //vmark.clear();
 
         }else
@@ -119,20 +121,157 @@ bool ObjModel::rawload(const std::string &file_name)
     return true;
 }
 
+//bool ObjModel::load(const std::string &file_name)
+//{
+//    using namespace std;
+//    ifstream infile;
+//    infile.open(file_name.c_str(),ios::binary);
+
+//    //std::cout<<sizeof(int)<<"\t"<<sizeof(long)<<"\t"<<sizeof(float)<<std::endl;
+//    std::cout<<sizeof(Point3f)<<"\t"<<sizeof(Point2f)<<"\t"<<sizeof(Face)<<std::endl;
+//    if (!infile.is_open())
+//    {
+//        std::cerr<<"Cannot find the model file: "<<file_name<<endl;
+//        return false;
+//    }
+//    string id;
+//    bool bFirst=true;
+//    int nface=1;
+//    list<Point3f> coord_list;
+//    list<Point3f> normal_list;
+//    list<Point2f> texture_list;
+//    list<rawFace> face_list;
+//    char temp_buf[512];
+//    infile>>id;
+
+//    std::chrono::time_point<std::chrono::system_clock> start, end;
+//    std::chrono::duration<double> elapsed_seconds;
+//    start = std::chrono::system_clock::now();
+//    while(!infile.eof())
+//    {
+//        if (id=="v"){
+//            coord_list.push_back(Point3f());
+//            for (int i=0;i<3;i++)
+//                infile>>coord_list.back()[i]  ;
+
+//            //vmark.clear();
+//        }else
+//        if (id=="vn"){
+//            normal_list.push_back(Point3f());
+//            for (int i=0;i<3;i++){
+//                infile>> normal_list.back()[i]  ;
+//                //normal_list.back()[i]*=-1;
+//            }
+//            //vmark.clear();
+//        }else
+//        if (id=="vt"){
+//            texture_list.push_back(Point2f());
+//            for (int i=0;i<2;i++)
+//                infile>>texture_list.back()[i]  ;
+//            //vmark.clear();
+//        }else
+//        if (id=="f"){
+//            if (bFirst){
+//                string s;
+//                infile>>s;
+//                nface=0;
+//                have_proterties[1]=have_proterties[2]=false;
+//                have_proterties[0]=true;
+//                for (int i=0;i<s.length()-1;i++)
+//                    if (s[i]=='/')
+//                    {
+//                        have_proterties[++nface]=true;
+//                        if (s[i+1]=='/'){
+//                            have_proterties[nface]=false;
+//                        }
+//                    }
+//                bFirst=false;
+//                //std::cout<<infile.tellg()<<"\t"<<s.length()<<std::endl;
+//                infile.seekg(int(infile.tellg())-s.length());
+//            }
+
+//            char c;
+//            face_list.push_back(rawFace());
+//            for (int i=0;i<face_dim;i++){
+//                for (int j=0;j<3;j++){
+//                    if (have_proterties[j]){
+//                        infile>>face_list.back()[j*face_dim+i];
+//                        --face_list.back()[j*face_dim+i];
+//                    }
+//                    if (j<2) infile>>c;
+//                }
+//            }
+//       }else
+//            infile.getline(temp_buf,512);
+//        infile>>id;
+//    }
+//    end = std::chrono::system_clock::now();
+//    elapsed_seconds = end-start;
+//    std::cout<<"elapse time: "<<elapsed_seconds.count()<<std::endl;
+
+//    std::cout<<id<<std::endl;
+//    infile.close();
+
+//    start = std::chrono::system_clock::now();
+//    verts.clear();
+//    texs.clear();
+//    norms.clear();
+//    faces.clear();
+//    vector<Point3f> t_norms;
+//    vector<Point2f> t_texs;
+
+//    verts.reserve(coord_list.size());
+//    t_norms.reserve(normal_list.size());
+//    t_texs.reserve(texture_list.size());
+
+//    for_each(coord_list.begin(),coord_list.end(),[this](const Point3f& it){this->verts.push_back(it);});
+//    for_each(normal_list.begin(),normal_list.end(),[&t_norms](const Point3f& it){t_norms.push_back(it);});
+//    for_each(texture_list.begin(),texture_list.end(),[&t_texs](const Point2f& it){t_texs.push_back(it);});
+
+//    if (have_proterties[0])
+//        faces.reserve(face_list.size());
+//    if (have_proterties[1])
+//        texs.resize(coord_list.size());
+//    if (have_proterties[2])
+//        norms.resize(coord_list.size());
+
+//    for (auto fiter=face_list.begin(); fiter!=face_list.end();fiter++){
+//        faces.push_back(Face(fiter->data()));
+//        for (int i=0;i<face_dim;i++){
+//            if (have_proterties[1])
+//                texs[(*fiter)[i]]=t_texs[(*fiter)[i+face_dim]];
+//            if (have_proterties[2])
+//                norms[(*fiter)[i]]=t_norms[(*fiter)[i+(face_dim<<1)]];
+//        }
+//    }
+//    face_properties_num=nface;
+//    face_num=faces.size();
+//    vert_num=verts.size();
+//    tex_num=texs.size();
+//    norm_num=norms.size();
+
+
+//    end = std::chrono::system_clock::now();
+//    elapsed_seconds = end-start;
+//    std::cout<<"elapse time: "<<elapsed_seconds.count()<<std::endl;
+
+//    return true;
+//}
+
 bool ObjModel::load(const std::string &file_name)
 {
     using namespace std;
-    ifstream infile;
-    infile.open(file_name.c_str(),ios::binary);
+    FILE* infile;
+    infile=fopen(file_name.c_str(),"rb");
 
     //std::cout<<sizeof(int)<<"\t"<<sizeof(long)<<"\t"<<sizeof(float)<<std::endl;
     std::cout<<sizeof(Point3f)<<"\t"<<sizeof(Point2f)<<"\t"<<sizeof(Face)<<std::endl;
-    if (!infile.is_open())
+    if (!infile)
     {
         std::cerr<<"Cannot find the model file: "<<file_name<<endl;
         return false;
     }
-    string id;
+    char id[128];
     bool bFirst=true;
     int nface=1;
     list<Point3f> coord_list;
@@ -140,42 +279,43 @@ bool ObjModel::load(const std::string &file_name)
     list<Point2f> texture_list;
     list<rawFace> face_list;
     char temp_buf[512];
-    infile>>id;
+
+    fscanf(infile,"%s",id);
 
     std::chrono::time_point<std::chrono::system_clock> start, end;
     std::chrono::duration<double> elapsed_seconds;
     start = std::chrono::system_clock::now();
-    while(!infile.eof())
+    while(!feof(infile))
     {
-        if (id=="v"){
+        if (strncmp(id,"v",3)==0){
             coord_list.push_back(Point3f());
             for (int i=0;i<3;i++)
-                infile>>coord_list.back()[i]  ;
+                fscanf(infile,"%f",&(coord_list.back()[i]))  ;
 
             //vmark.clear();
         }else
-        if (id=="vn"){
+        if (strncmp(id,"vn",4)==0){
             normal_list.push_back(Point3f());
             for (int i=0;i<3;i++){
-                infile>> normal_list.back()[i]  ;
+                 fscanf(infile,"%f",&(normal_list.back()[i]))  ;
                 //normal_list.back()[i]*=-1;
             }
             //vmark.clear();
         }else
-        if (id=="vt"){
+        if (strncmp(id,"vt",4)==0){
             texture_list.push_back(Point2f());
             for (int i=0;i<2;i++)
-                infile>>texture_list.back()[i]  ;
+                 fscanf(infile,"%f",&(texture_list.back()[i]))  ;
             //vmark.clear();
         }else
-        if (id=="f"){
+        if (strncmp(id,"f",2)==0){
             if (bFirst){
-                string s;
-                infile>>s;
+                char s[128];
+                fscanf(infile,"%s",s);
                 nface=0;
                 have_proterties[1]=have_proterties[2]=false;
                 have_proterties[0]=true;
-                for (int i=0;i<s.length()-1;i++)
+                for (int i=0;i<strlen(s)-1;i++)
                     if (s[i]=='/')
                     {
                         have_proterties[++nface]=true;
@@ -185,30 +325,29 @@ bool ObjModel::load(const std::string &file_name)
                     }
                 bFirst=false;
                 //std::cout<<infile.tellg()<<"\t"<<s.length()<<std::endl;
-                infile.seekg(int(infile.tellg())-s.length());
+                fseek(infile,ftell(infile)-strlen(s),SEEK_SET);
             }
 
-            char c;
             face_list.push_back(rawFace());
-            for (int i=0;i<face_dim;i++){                
+            for (int i=0;i<face_dim;i++){
                 for (int j=0;j<3;j++){
                     if (have_proterties[j]){
-                        infile>>face_list.back()[j*face_dim+i];
+                        fscanf(infile,"%d",&(face_list.back()[j*face_dim+i]));
                         --face_list.back()[j*face_dim+i];
                     }
-                    if (j<2) infile>>c;
+                    if (j<2) fgetc(infile);
                 }
             }
        }else
-            infile.getline(temp_buf,512);
-        infile>>id;
+            fgets(temp_buf,512,infile);
+        fscanf(infile,"%s",id);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end-start;
     std::cout<<"elapse time: "<<elapsed_seconds.count()<<std::endl;
 
     std::cout<<id<<std::endl;
-    infile.close();
+    fclose(infile);
 
     start = std::chrono::system_clock::now();
     verts.clear();

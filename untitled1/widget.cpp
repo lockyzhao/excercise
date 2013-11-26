@@ -108,7 +108,7 @@ void MyWidget::initializeGL()
     // Enable back face culling
     glEnable(GL_CULL_FACE);
 
-    ge.init(conf["ModelFile"].toStdString());
+    gEngine.init(conf["ModelFile"].toStdString());
     timer.start(12,this);
 }
 
@@ -157,7 +157,7 @@ void MyWidget::paintGL()
     //program.setUniformValue("texture", 0);
 
     // Draw cube geometry
-    ge.render(&program);
+    gEngine.render(&program);
 }
 
 
@@ -224,7 +224,7 @@ void MyWidget::initPointLight()
 {
     light.ambient=QVector3D(0.2,0.2,0.2);
     light.color=QVector3D(0.,1.,1.)*0.7;
-    light.position=QVector3D(0,1,2);
+    light.position=QVector3D(0,5,5);
     light.shininess=20;
     light.strength=10;
 
