@@ -340,6 +340,7 @@ bool ObjModel::load(const std::string &file_name)
             }
        }else
             fgets(temp_buf,512,infile);
+        //id[0]=0;
         fscanf(infile,"%s",id);
     }
     end = std::chrono::system_clock::now();
