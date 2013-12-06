@@ -25,7 +25,7 @@ def make_render(image_sequence):
 
 
 def load_anim_from_png(file_name):
-    global im, image_seq, i, j, x, im0
+    
     im = Image.open(file_name)
     image_seq = []
     for i in xrange(4):
@@ -43,18 +43,20 @@ if __name__ == "__main__":
     font = pygame.font.SysFont(None, 32)
 
     scene=[]
+    image_seq_list=[]
     #img=pygame.image.load('SnowPea.gif')
     # im = Image.open('SnowPea.gif')
     gif_anim = GifAnimation()
     gif_anim.load('BucketheadZombie.gif')
-    gif_seq = [pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence]
+    image_seq_list.append([pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence])
     gif_anim.load("SnowPea.gif")
-    gif_seq1=[pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence]
+    image_seq_list.append([pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence])
     gif_anim.load("ConeheadZombieAttack.gif")
-    gif_seq2=[pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence]
+    image_seq_list.append([pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence])
 
-    image_seq=load_anim_from_png('01.png')
-    scene=[ make_render(image_seq), make_render(gif_seq) , make_render(gif_seq1),make_render(gif_seq2)]
+    image_seq_list.append(load_anim_from_png('01.png'))
+    #scene=[ make_render(image_seq), make_render(gif_seq) , make_render(gif_seq1),make_render(gif_seq2)]
+    scene=[ make_render(x) for x in image_seq_list]
     #index = 0
     while True:
         for event in pygame.event.get():
