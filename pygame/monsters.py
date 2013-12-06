@@ -42,15 +42,19 @@ if __name__ == "__main__":
     pygame.mouse.set_visible(True)
     font = pygame.font.SysFont(None, 32)
 
+    scene=[]
     #img=pygame.image.load('SnowPea.gif')
     # im = Image.open('SnowPea.gif')
     gif_anim = GifAnimation()
     gif_anim.load('BucketheadZombie.gif')
     gif_seq = [pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence]
+    gif_anim.load("SnowPea.gif")
+    gif_seq1=[pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence]
+    gif_anim.load("ConeheadZombieAttack.gif")
+    gif_seq2=[pygame.image.fromstring(im.tostring(), im.size, gif_anim.format) for im in gif_anim.frame_sequence]
 
     image_seq=load_anim_from_png('01.png')
-    get1_image_seq = make_render(image_seq)
-    get1_gif_seq = make_render(gif_seq)
+    scene=[ make_render(image_seq), make_render(gif_seq) , make_render(gif_seq1),make_render(gif_seq2)]
     #index = 0
     while True:
         for event in pygame.event.get():
@@ -59,8 +63,9 @@ if __name__ == "__main__":
         window.fill((0, 255, 0))
         #window.blit(gif_anim.get1frame(-1, gif_seq), (0, 0))
 
-        window.blit(get1_gif_seq(), (0, 0))
-        window.blit(get1_image_seq(), (300, 0))
+        for obj in scene:
+            window.blit(obj(), (scene.index(obj)*100,0))
+            #window.blit(get1_image_seq(), (300, 0))
         #index += 1
         #if index >= len(gif_seq): index %= len(gif_seq)
         pygame.display.update()

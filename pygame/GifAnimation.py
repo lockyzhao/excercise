@@ -28,19 +28,29 @@ class GifAnimation:
         self.info = im.info
         #imstr=im.convert('RGBA').tostring()
         self.frame_sequence = []
-
+        t_seq=[]
+        s_seq=[]
         try:
             while True:
                 im.putpalette(self.palette)
                 new_im = __myImage.new(self.format, im.size, (0, 0, 0, 0))
-                new_im.paste(im)
-                self.frame_sequence.append(new_im.crop(size0))
+                new_im.paste(im.crop(size0),size0)
+                t_seq.append(new_im)#.crop(size0))
+                s_seq.append(size0)
                 #imstr = new_im.tostring()
                 im.seek(im.tell() + 1)
                 tag, size0, offset, extra = im.tile[0]
                 #frame_sequence.append(pygame.image.fromstring(imstr, im.size, 'RGBA'))
         except EOFError:
             print len(self.frame_sequence), "frames"
+
+        bounding=s_seq[0]
+        for size in s_seq[1:]:
+            a=[min((bounding[i],size[i])) for i in xrange(2) ]                
+            bounding=a+[max((bounding[i],size[i])) for i in xrange(2,4) ]                
+
+        print bounding
+        self.frame_sequence=[im.crop(bounding) for im in t_seq]
 
     def get1frame(self, index=-1, gif_seq=None):
         if index >= 0: self.current_frame_id = index
