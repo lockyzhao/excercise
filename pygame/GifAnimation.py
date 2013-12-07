@@ -44,7 +44,7 @@ class GifAnimation:
                 #frame_sequence.append(pygame.image.fromstring(imstr, im.size, 'RGBA'))
         except EOFError:
             print len(t_seq), "frames"
-            
+        self.bounding_rect=bounding
         self.frame_sequence=[im.crop(bounding) for im in t_seq]
 
     def get1frame(self, index=-1, gif_seq=None):
@@ -58,5 +58,7 @@ class GifAnimation:
         self.current_frame_id += 1
         return im
 
+    def get_rect(self):
+        return self.bounding_rect
 
 

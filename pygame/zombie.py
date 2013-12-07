@@ -24,8 +24,9 @@
 ###                                                                                      ###
 ############################################################################################
 
-import pygame, random, sys, time
+import pygame, random, sys, time , copy
 from pygame.locals import *
+from GifAnimation import GifAnimation
 
 #set up some variables
 WINDOWWIDTH = 1024
@@ -33,11 +34,11 @@ WINDOWHEIGHT = 600
 FPS = 60
 
 MAXGOTTENPASS = 10
-ZOMBIESIZE = 70 #includes newKindZombies
-ADDNEWZOMBIERATE = 30
+
+ADDNEWZOMBIERATE = 7
 ADDNEWKINDZOMBIE = ADDNEWZOMBIERATE
 
-NORMALZOMBIESPEED = 2
+NORMALZOMBIESPEED = 1.5
 NEWKINDZOMBIESPEED = NORMALZOMBIESPEED / 2
 
 PLAYERMOVERATE = 15
@@ -50,6 +51,24 @@ RED = (255, 0, 0)
 def terminate():
     pygame.quit()
     sys.exit()
+
+def make_render(image_sequence):
+    seq = image_sequence
+    id =[0,0]   # dont use local variable of simple type because myget1frame will change it.
+    interval=0
+    def myget1frame():
+       #print id[0]
+        im = seq[id[0]]
+        id[1]+=1
+        #print id[1]
+        if int(FPS/12)<id[1]: 
+            id[0] = (id[0] + 1) % len(seq)
+            id[1]=0
+
+        return im
+
+    return myget1frame
+
 
 def waitForPlayerToPressKey():
     while True:
@@ -103,22 +122,35 @@ gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('grasswalk.mp3')
 
 # set up images
-playerImage = pygame.image.load('SnowPea.gif')
-playerRect = playerImage.get_rect()
+g_am=GifAnimation();
+g_am.load('SnowPea.gif')
+playerImage=[pygame.image.fromstring(im.tostring(), im.size, g_am.format) for im in g_am.frame_sequence]
+playerRect = playerImage[0].get_rect()
 playerRects=[]
 
-bulletImage = pygame.image.load('SnowPeashooterBullet.gif')
-bulletRect = bulletImage.get_rect()
 
-zombieImage = pygame.image.load('tree.png')
-newKindZombieImage = pygame.image.load('ConeheadZombieAttack.gif')
+g_am.load('SnowPeashooterBullet.gif')
+bulletImage=[pygame.image.fromstring(im.tostring(), im.size, g_am.format) for im in g_am.frame_sequence]
+bulletRect = bulletImage[0].get_rect()
+
+
+rt=pygame.image.load('BucketheadZombie.gif').get_rect()
+ZOMBIESIZE=(int(rt.width*0.8),int(rt.height*0.6))
+g_am.load('BucketheadZombie.gif')
+zombieImage=[pygame.transform.scale(pygame.image.fromstring(im.tostring(), im.size, g_am.format), ZOMBIESIZE) for im in g_am.frame_sequence]
+
+
+g_am.load('ConeheadZombieAttack.gif')
+newKindZombieImage=[pygame.transform.scale(pygame.image.fromstring(im.tostring(), im.size, g_am.format), ZOMBIESIZE) for im in g_am.frame_sequence]
+#bulletRect = newKindZombieImage.bounding_rect
 
 backgroundImage = pygame.image.load('background.png')
 rescaledBackground = pygame.transform.scale(backgroundImage, (WINDOWWIDTH, WINDOWHEIGHT))
 
+
 # show the "Start" screen
 windowSurface.blit(rescaledBackground, (0, 0))
-windowSurface.blit(playerImage, (WINDOWWIDTH / 2, WINDOWHEIGHT - 70))
+windowSurface.blit(playerImage[0], (WINDOWWIDTH / 2, WINDOWHEIGHT - 70))
 drawText('Zombie Defence By handsomestone', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 4))
 drawText('Press Enter to start', font, windowSurface, (WINDOWWIDTH / 3) - 10, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -134,12 +166,15 @@ while True:
     zombiesGottenPast = 0
     score = 0
 
-    playerRects=[
-    ]
+    playerRects=[]
+    playerRenders=[]
     for i in xrange(8):
-        r=playerImage.get_rect()
+        r=copy.copy(playerRect)
         r.topleft=(50, 30+i*r.height)
+        #print r
         playerRects.append(r)
+        playerRenders.append(make_render(playerImage))
+    #print playerRects
     playerRect=playerRects[0]
     moveLeft = moveRight = False
     moveUp=moveDown = False
@@ -194,13 +229,13 @@ while True:
             zombieSize = ZOMBIESIZE   
             zombie_type=random.randint(1,8) / 5
             if zombie_type==0:
-                sf=pygame.transform.scale(zombieImage, (zombieSize, zombieSize))                
+                sf=make_render(zombieImage)                
             else:    
-                sf=pygame.transform.scale(newKindZombieImage, (ZOMBIESIZE, ZOMBIESIZE))
-            newZombie = {'rect': pygame.Rect(WINDOWWIDTH, random.randint(10,WINDOWHEIGHT-zombieSize-10), zombieSize, zombieSize),
+                sf=make_render(newKindZombieImage)
+            newZombie = {'rect': pygame.Rect(WINDOWWIDTH, random.randint(10,WINDOWHEIGHT-zombieSize[1]-10), zombieSize[0], zombieSize[1]),
                         'surface': sf,
                         'type': zombie_type ,
-                        'life':zombie_type+1,
+                        'life':(2-zombie_type)*2,
                         }
 
             zombies.append(newZombie)
@@ -222,7 +257,7 @@ while True:
             bulletAddCounter = 0
             for playerRect in playerRects :                
                 newBullet = {'rect':pygame.Rect(playerRect.centerx+10, playerRect.centery-25, bulletRect.width, bulletRect.height),
-    						 'surface':pygame.transform.scale(bulletImage, (bulletRect.width, bulletRect.height)),
+    						 'surface':make_render(bulletImage),
                              'power':1,
     						}
                 bullets.append(newBullet)
@@ -281,19 +316,20 @@ while True:
         windowSurface.blit(rescaledBackground, (0, 0))
 
         # Draw the player's rectangle, rails
-        for rect in playerRects:
-            windowSurface.blit(playerImage, rect)
+        #print playerRects
+        for i in xrange(len(playerRects)):
+            windowSurface.blit(playerRenders[i](), playerRects[i])
 
         # Draw each baddie
         for z in zombies:
-            windowSurface.blit(z['surface'], z['rect'])
+            windowSurface.blit(z['surface'](), z['rect'])
 
         # for c in newKindZombies:
         #     windowSurface.blit(c['surface'], c['rect'])
 
         # draw each bullet
         for b in bullets:
-            windowSurface.blit(b['surface'], b['rect'])
+            windowSurface.blit(b['surface'](), b['rect'])
 
         # Draw the score and how many zombies got past
         drawText('zombies gotten past: %s' % (zombiesGottenPast), font, windowSurface, 10, 20)
@@ -320,7 +356,7 @@ while True:
     time.sleep(1)
     if zombiesGottenPast >= MAXGOTTENPASS:
         windowSurface.blit(rescaledBackground, (0, 0))
-        windowSurface.blit(playerImage, (WINDOWWIDTH / 2, WINDOWHEIGHT - 70))
+        windowSurface.blit(playerImage[0], (WINDOWWIDTH / 2, WINDOWHEIGHT - 70))
         drawText('score: %s' % (score), font, windowSurface, 10, 30)
         drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
         drawText('YOUR COUNTRY HAS BEEN DESTROIED', font, windowSurface, (WINDOWWIDTH / 4)- 80, (WINDOWHEIGHT / 3) + 100)
@@ -329,7 +365,7 @@ while True:
         waitForPlayerToPressKey()
     if playerHasHitZombie(playerRect, zombies):
         windowSurface.blit(rescaledBackground, (0, 0))
-        windowSurface.blit(playerImage, (WINDOWWIDTH / 2, WINDOWHEIGHT - 70))
+        windowSurface.blit(playerImage[0], (WINDOWWIDTH / 2, WINDOWHEIGHT - 70))
         drawText('score: %s' % (score), font, windowSurface, 10, 30)
         drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
         drawText('YOU HAVE BEEN KISSED BY THE ZOMMBIE', font, windowSurface, (WINDOWWIDTH / 4) - 80, (WINDOWHEIGHT / 3) +100)
